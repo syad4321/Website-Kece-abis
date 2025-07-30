@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portofolio | Nama Kamu</title>
+  <style>
+    :root {
+      --bg-color: #121212;
+      --primary: #00e0ff;
+      --text-light: #eee;
+      --text-muted: #aaa;
+      --card-bg: #1f1f1f;
+      --accent: #38e4aa;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 3rem 1rem;
+      text-align: center;
+      background: linear-gradient(135deg, #0f0f0f, #1e1e1e);
+    }
+
+    header h1 {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #1a1a1a;
+      padding: 1rem;
+      gap: 2rem;
+      border-top: 1px solid #2a2a2a;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    nav a {
+      color: var(--text-light);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    section {
+      margin-bottom: 4rem;
+      animation: fadeIn 0.8s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .about {
+      text-align: center;
+    }
+
+    .about img {
+      width: 612px;
+      height: 384;
+      border: radius 0;
+      border: 3px solid var(--primary);
+      margin-bottom: 3rem;
+      margin-top: 3rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    .contact {
+      text-align: center;
+    }
+
+    .contact a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #111;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>WEBSITE CAK ICAD</h1>
+    <p>Web Developer | UI Designer | Tech Enthusiast</p>
+  </header>
+
+  <nav>
+    <a href="#about">Tentang</a>
+    <a href="#projects">Proyek</a>
+    <a href="#contact">Kontak</a>
+  </nav>
+
+  <div class="container">
+    <section id="about" class="about">
+      <h2>TENTANG GUA</h2>
+      <img src="file:///C:/Users/pc/Pictures/foto.jpeg" alt="Foto Profil" 
+      <p>Saya adalah pengembang web yang fokus pada pembuatan aplikasi modern dan ramah pengguna. Passion saya adalah teknologi, desain bersih, dan pengalaman pengguna yang luar biasa.</p>
+    </section>
+
+    <section id="projects" class="projects">
+      <div class="card">
+        <h3>TUGAS SEKOLAH SMAN 10 DEPOK</h3>
+        <p>Aplikasi web sederhana untuk mengelola tugas harian dengan drag & drop.</p>
+      </div>
+      <div class="card">
+        <h3>PROFILE CAK ICAD</h3>
+        <p>Website statis untuk klien UKM dengan desain elegan dan responsif.</p>
+      </div>
+      <div class="card">
+        <h3>DASHBOARD PRIBADI</h3>
+        <p>Dashboard data pengguna menggunakan Chart.js & REST API.</p>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2>Hubungi Saya</h2>
+      <p>Email: <a href="mailto:kamu@email.com">kamu@email.com</a></p>
+      <p>LinkedIn: <a href="https://linkedin.com/in/kamu" target="_blank">linkedin.com/in/kamu</a></p>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Nama Kamu. Dibuat dengan ❤ dan kode.</p>
+  </footer>
+
+</body>
+</html>
