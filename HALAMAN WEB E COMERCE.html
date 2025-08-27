@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TokoKita - E-Commerce Lengkap</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<style>
+  /* RESET */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body, html {
+    height: 100%; font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff; overflow-x: hidden;
+  }
+  #particles-js {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+  }
+
+  /* NAVBAR */
+  header.navbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 32px; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 99;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo img {
+    height: 40px;
+  }
+  .logo span {
+    font-weight: 700; font-size: 1.5rem; color: #00d4ff;
+  }
+  nav.nav-links a {
+    margin-left: 24px;
+    cursor: pointer; font-weight: 600;
+    text-decoration: none; color: #eee;
+    transition: color 0.3s;
+  }
+  nav.nav-links a:hover {
+    color: #00d4ff;
+  }
+  @media(max-width:600px) {
+    nav.nav-links {
+      display: flex; flex-direction: column; gap: 10px;
+      margin-top: 10px;
+    }
+  }
+
+  /* MAIN CONTAINER */
+  main {
+    padding: 40px 20px; max-width: 960px; margin: 0 auto;
+  }
+  section.page {
+    display: none;
+    animation: fadeSlide 0.5s ease forwards;
+  }
+  section.page.active {
+    display: block;
+  }
+  @keyframes fadeSlide {
+    from {opacity:0; transform: translateY(20px);}
+    to {opacity:1; transform: translateY(0);}
+  }
+
+  /* LOGIN */
+  .login-box {
+    background: rgba(255,255,255,0.1);
+    padding: 40px; border-radius: 16px; backdrop-filter: blur(15px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    max-width: 400px; margin: 40px auto;
+  }
+  .login-box h2 {
+    text-align: center; margin-bottom: 30px; color: #00d4ff;
+  }
+  .login-box input[type=text], .login-box input[type=password] {
+    width: 100%; padding: 14px; margin-bottom: 20px;
+    border-radius: 10px; border: none; background: rgba(255,255,255,0.2);
+    color: #fff; font-size: 1rem;
+  }
+  .btn {
+    background: linear-gradient(90deg, #00d4ff, #007cf0);
+    color: #fff; border: none; padding: 14px 20px;
+    font-weight: 700; font-size: 1rem; border-radius: 10px;
+    cursor: pointer; transition: 0.3s ease;
+    width: 100%;
+  }
+  .btn:hover {
+    background: linear-gradient(90deg, #007cf0, #00d4ff);
+    transform: scale(1.05);
+  }
+
+  /* ETALASE */
+  .product-list {
+    display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 24px;
+  }
+  .product-item {
+    background: rgba(255,255,255,0.12);
+    padding: 20px; border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    text-align: center; transition: background 0.3s ease, transform 0.3s ease;
+  }
+  .product-item:hover {
+    background: rgba(255,255,255,0.22);
+    transform: translateY(-8px);
+  }
+  .product-item img {
+    width: 100%; border-radius: 12px; margin-bottom: 12px;
+  }
+  .product-item h3 {
+    margin-bottom: 8px; font-weight: 700;
+  }
+  .product-item p.price {
+    font-weight: 600; color: #00d4ff; margin-bottom: 12px;
+    font-size: 1.1rem;
+  }
+  .product-item button {
+    background: #00d4ff; border: none; color: white;
+    padding: 10px 18px; border-radius: 10px;
+    cursor: pointer; font-weight: 700;
+    transition: background 0.3s ease;
+  }
+  .product-item button:hover {
+    background: #007cf0;
+  }
+
+  /* KERANJANG */
+  .cart-list {
+    background: rgba(255,255,255,0.1);
+    padding: 20px; border-radius: 16px; max-width: 700px;
+    margin: 0 auto 30px auto;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+  .cart-item {
+    display: flex; align-items: center; gap: 20px;
+    padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  .cart-item:last-child {
+    border: none;
+  }
+  .cart-item img {
+    width: 80px; border-radius: 8px;
+  }
+  .cart-item-details {
+    flex-grow: 1;
+  }
+  .cart-item-details h4 {
+    font-weight: 600;
+  }
+  .cart-item-details p {
+    margin: 6px 0; font-size: 0.9rem;
+  }
+  .cart-item-controls {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cart-item-controls input {
+    width: 50px; padding: 6px 8px;
+    border-radius: 6px; border: none;
+    text-align: center; font-weight: 600;
+  }
+  .cart-item-controls button {
+    background: #ff4c4c; border: none; color: white;
+    padding: 6px 12px; border-radius: 8px;
+    cursor: pointer; font-weight: 700;
+    transition: background 0.3s ease;
+  }
+  .cart-item-controls button:hover {
+    background: #cc3a3a;
+  }
+  .checkout-section {
+    text-align: right; margin-top: 20px;
+  }
+  .total-amount {
+    font-weight: 700; font-size: 1.3rem; margin-bottom: 12px;
+  }
+
+  /* MODAL BACKDROP & MODAL */
+  .modal-backdrop {
+    position: fixed; top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.7);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .modal-backdrop.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .modal {
+    background: rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 16px;
+    max-width: 420px;
+    width: 90vw;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+    backdrop-filter: blur(20px);
+    color: #fff;
+    position: relative;
+  }
+  .modal h3 {
+    margin-bottom: 20px;
+    color: #00d4ff;
+    font-weight: 700;
+  }
+  .modal label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .modal input[type=number], .modal input[type=text] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    background: rgba(255,255,255,0.2);
+    color: white;
+  }
+  .modal button {
+    width: 100%;
+  }
+  .modal .close-btn {
+    position: absolute;
+    top: 12px; right: 16px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+  }
+
+  /* PAYMENT FORM */
+  .payment-info {
+    margin-top: 20px;
+  }
+  .payment-info p {
+    margin-bottom: 10px;
+  }
+  .success-msg {
+    color: #0f0;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1.2rem;
+  }
+</style>
+</head>
+<body>
+
+<div id="particles-js"></div>
+
+<header class="navbar">
+  <div class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/833/833314.png" alt="Logo" />
+    <span>SMAN CELL</span>
+  </div>
+  <nav class="nav-links">
+    <a onclick="navigateTo('login')">Login</a>
+    <a onclick="navigateTo('etalase')">Etalase Produk</a>
+    <a onclick="navigateTo('keranjang')">Keranjang (<span id="cart-count">0</span>)</a>
+  </nav>
+</header>
+
+<main>
+  <!-- LOGIN -->
+  <section id="login" class="page active login-box" aria-label="Halaman Login">
+    <h2>Masuk ke Akun Anda</h2>
+    <input type="text" id="username" placeholder="Username" autocomplete="username" />
+    <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
+    <button class="btn" id="btn-login">Login</button>
+    <p id="login-msg" style="color:#f44336; margin-top:12px; text-align:center;"></p>
+  </section>
+
+  <!-- ETALASE -->
+  <section id="etalase" class="page" aria-label="Etalase Produk">
+    <h2>Etalase Produk</h2>
+    <div class="product-list" id="product-list">
+      <!-- Produk akan di-render oleh JS -->
+    </div>
+  </section>
+
+  <!-- KERANJANG -->
+  <section id="keranjang" class="page" aria-label="Keranjang Belanja">
+    <h2>Keranjang Belanja</h2>
+    <div class="cart-list" id="cart-list">
+      <!-- Item Keranjang -->
+    </div>
+    <div class="checkout-section" id="checkout-section" style="display:none;">
+      <p class="total-amount">Total: Rp <span id="cart-total">0</span></p>
+      <button class="btn" id="btn-checkout">Checkout</button>
+    </div>
+    <p id="empty-cart-msg" style="text-align:center; color:#ccc; margin-top:20px;">Keranjang kosong.</p>
+  </section>
+</main>
+
+<!-- MODAL Beli Produk -->
+<div class="modal-backdrop" id="modal-buy-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-buy-title">
+    <button class="close-btn" aria-label="Tutup modal" onclick="closeBuyModal()">×</button>
+    <h3 id="modal-buy-title">Beli Produk</h3>
+    <p id="modal-buy-product-name" style="font-weight: 600; margin-bottom: 20px;"></p>
+    <label for="buy-qty">Jumlah:</label>
+    <input type="number" id="buy-qty" min="1" value="1" />
+    <button class="btn" id="btn-confirm-buy">Konfirmasi Beli</button>
+  </div>
+</div>
+
+<!-- MODAL Pembayaran -->
+<div class="modal-backdrop" id="modal-payment-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-payment-title">
+    <button class="close-btn" aria-label="Tutup modal" onclick="closePaymentModal()">×</button>
+    <h3 id="modal-payment-title">Pembayaran</h3>
+    <div class="payment-info" id="payment-info">
+      <!-- Info pembayaran akan diisi -->
+    </div>
+    <label for="payment-name">Nama Pemesan:</label>
+    <input type="text" id="payment-name" placeholder="Nama lengkap" />
+    <label for="payment-address">Alamat Pengiriman:</label>
+    <input type="text" id="payment-address" placeholder="Alamat lengkap" />
+    <button class="btn" id="btn-pay-now">Bayar Sekarang</button>
+    <p id="payment-msg" style="margin-top:15px;"></p>
+  </div>
+</div>
+
+<footer style="text-align:center; padding:20px; color:#aaa;">
+  &copy; 2025 TokoKita. All rights reserved.
+</footer>
+
+<script>
+  // Data produk dummy 9 item
+  const products = [
+    {id: 1, name: "Produk 1", price: 100000, img: "https://via.placeholder.com/240x160?text=Produk+1"},
+    {id: 2, name: "Produk 2", price: 120000, img: "https://via.placeholder.com/240x160?text=Produk+2"},
+    {id: 3, name: "Produk 3", price: 95000,  img: "https://via.placeholder.com/240x160?text=Produk+3"},
+    {id: 4, name: "Produk 4", price: 110000, img: "https://via.placeholder.com/240x160?text=Produk+4"},
+    {id: 5, name: "Produk 5", price: 130000, img: "https://via.placeholder.com/240x160?text=Produk+5"},
+    {id: 6, name: "Produk 6", price: 80000,  img: "https://via.placeholder.com/240x160?text=Produk+6"},
+    {id: 7, name: "Produk 7", price: 99000,  img: "https://via.placeholder.com/240x160?text=Produk+7"},
+    {id: 8, name: "Produk 8", price: 140000, img: "https://via.placeholder.com/240x160?text=Produk+8"},
+    {id: 9, name: "Produk 9", price: 75000,  img: "https://via.placeholder.com/240x160?text=Produk+9"},
+  ];
+
+  // State
+  let cart = [];
+
+  // ELEMENTS
+  const productListEl = document.getElementById('product-list');
+  const cartListEl = document.getElementById('cart-list');
+  const cartCountEl = document.getElementById('cart-count');
+  const cartTotalEl = document.getElementById('cart-total');
+  const checkoutSectionEl = document.getElementById('checkout-section');
+  const emptyCartMsgEl = document.getElementById('empty-cart-msg');
+
+  // MODALS
+  const modalBuyBackdrop = document.getElementById('modal-buy-backdrop');
+  const modalBuyProductName = document.getElementById('modal-buy-product-name');
+  const buyQtyInput = document.getElementById('buy-qty');
+  const btnConfirmBuy = document.getElementById('btn-confirm-buy');
+
+  const modalPaymentBackdrop = document.getElementById('modal-payment-backdrop');
+  const paymentInfoEl = document.getElementById('payment-info');
+  const paymentNameInput = document.getElementById('payment-name');
+  const paymentAddressInput = document.getElementById('payment-address');
+  const btnPayNow = document.getElementById('btn-pay-now');
+  const paymentMsg = document.getElementById('payment-msg');
+
+  // Login elements
+  const loginSection = document.getElementById('login');
+  const usernameInput = document.getElementById('username');
+  const passwordInput = document.getElementById('password');
+  const btnLogin = document.getElementById('btn-login');
+  const loginMsg = document.getElementById('login-msg');
+
+  // Simple "user database"
+  const users = [
+    { username: "admin", password: "123456" },
+    { username: "user", password: "password" }
+  ];
+
+  let loggedInUser = null;
+
+  // --- FUNCTIONS ---
+
+  // Render products in etalase
+  function renderProducts() {
+    productListEl.innerHTML = '';
+    for (const p of products) {
+      const div = document.createElement('div');
+      div.className = 'product-item';
+      div.innerHTML = `
+        <img src="${p.img}" alt="${p.name}" />
+        <h3>${p.name}</h3>
+        <p class="price">Rp ${p.price.toLocaleString('id-ID')}</p>
+        <button data-id="${p.id}">Beli</button>
+      `;
+      productListEl.appendChild(div);
+    }
+    // Add event listener for buy buttons
+    productListEl.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!loggedInUser) {
+          alert('Silakan login terlebih dahulu!');
+          navigateTo('login');
+          return;
+        }
+        const prodId = parseInt(btn.dataset.id);
+        openBuyModal(prodId);
+      });
+    });
+  }
+
+  // Render cart items
+  function renderCart() {
+    cartListEl.innerHTML = '';
+    if (cart.length === 0) {
+      emptyCartMsgEl.style.display = 'block';
+      checkoutSectionEl.style.display = 'none';
+      cartCountEl.textContent = '0';
+      return;
+    }
+    emptyCartMsgEl.style.display = 'none';
+    checkoutSectionEl.style.display = 'block';
+
+    let total = 0;
+    cart.forEach(item => {
+      const product = products.find(p => p.id === item.id);
+      total += product.price * item.qty;
+
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <img src="${product.img}" alt="${product.name}" />
+        <div class="cart-item-details">
+          <h4>${product.name}</h4>
+          <p>Harga: Rp ${product.price.toLocaleString('id-ID')}</p>
+          <p>Subtotal: Rp ${(product.price * item.qty).toLocaleString('id-ID')}</p>
+        </div>
+        <div class="cart-item-controls">
+          <input type="number" min="1" value="${item.qty}" data-id="${item.id}" />
+          <button data-id="${item.id}" aria-label="Hapus ${product.name} dari keranjang">Hapus</button>
+        </div>
+      `;
+      cartListEl.appendChild(div);
+    });
+    cartCountEl.textContent = cart.reduce((a,b) => a + b.qty, 0);
+    cartTotalEl.textContent = total.toLocaleString('id-ID');
+
+    // Attach events for quantity changes & remove buttons
+    cartListEl.querySelectorAll('input[type=number]').forEach(input => {
+      input.addEventListener('change', e => {
+        let val = parseInt(e.target.value);
+        if (isNaN(val) || val < 1) val = 1;
+        e.target.value = val;
+        const id = parseInt(e.target.dataset.id);
+        updateCartQty(id, val);
+      });
+    });
+    cartListEl.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = parseInt(btn.dataset.id);
+        removeFromCart(id);
+      });
+    });
+  }
+
+  function updateCartQty(id, qty) {
+    const item = cart.find(i => i.id === id);
+    if (item) {
+      item.qty = qty;
+      renderCart();
+    }
+  }
+
+  function removeFromCart(id) {
+    cart = cart.filter(i => i.id !== id);
+    renderCart();
+  }
+
+  // Add to cart function
+  function addToCart(productId, quantity) {
+    const existing = cart.find(i => i.id === productId);
+    if (existing) {
+      existing.qty += quantity;
+    } else {
+      cart.push({id: productId, qty: quantity});
+    }
+    renderCart();
+    alert('Produk berhasil ditambahkan ke keranjang!');
+  }
+
+  // NAVIGATION
+  function navigateTo(pageId) {
+    document.querySelectorAll('section.page').forEach(s => s.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    // Clear login messages
+    loginMsg.textContent = '';
+  }
+
+  // LOGIN HANDLER
+  btnLogin.addEventListener('click', () => {
+    const user = usernameInput.value.trim();
+    const pass = passwordInput.value.trim();
+    if (!user || !pass) {
+      loginMsg.textContent = 'Username dan password harus diisi.';
+      return;
+    }
+    const found = users.find(u => u.username === user && u.password === pass);
+    if (found) {
+      loggedInUser = found.username;
+      loginMsg.style.color = '#0f0';
+      loginMsg.textContent = `Selamat datang, ${loggedInUser}!`;
+      setTimeout(() => {
+        navigateTo('etalase');
+        renderProducts();
+      }, 800);
+    } else {
+      loginMsg.style.color = '#f44336';
+      loginMsg.textContent = 'Username atau password salah.';
+    }
+  });
+
+  // MODAL BUY
+  let currentBuyProductId = null;
+  function openBuyModal(prodId) {
+    currentBuyProductId = prodId;
+    const product = products.find(p => p.id === prodId);
+    modalBuyProductName.textContent = product.name + " - Rp " + product.price.toLocaleString('id-ID');
+    buyQtyInput.value = 1;
+    modalBuyBackdrop.classList.add('active');
+    modalBuyBackdrop.setAttribute('aria-hidden', 'false');
+    buyQtyInput.focus();
+  }
+  function closeBuyModal() {
+    modalBuyBackdrop.classList.remove('active');
+    modalBuyBackdrop.setAttribute('aria-hidden', 'true');
+  }
+  btnConfirmBuy.addEventListener('click', () => {
+    let qty = parseInt(buyQtyInput.value);
+    if (isNaN(qty) || qty < 1) {
+      alert('Jumlah harus minimal 1.');
+      buyQtyInput.focus();
+      return;
+    }
+    addToCart(currentBuyProductId, qty);
+    closeBuyModal();
+  });
+
+  // MODAL PAYMENT
+  function openPaymentModal() {
+    // Show payment info summary
+    let total = 0;
+    let lines = '';
+    for (const item of cart) {
+      const p = products.find(prod => prod.id === item.id);
+      const subtotal = p.price * item.qty;
+      total += subtotal;
+      lines += `<p>${p.name} x ${item.qty} = Rp ${subtotal.toLocaleString('id-ID')}</p>`;
+    }
+    lines += `<hr><p><strong>Total: Rp ${total.toLocaleString('id-ID')}</strong></p>`;
+    paymentInfoEl.innerHTML = lines;
+
+    paymentNameInput.value = '';
+    paymentAddressInput.value = '';
+    paymentMsg.textContent = '';
+
+    modalPaymentBackdrop.classList.add('active');
+    modalPaymentBackdrop.setAttribute('aria-hidden', 'false');
+    paymentNameInput.focus();
+  }
+  function closePaymentModal() {
+    modalPaymentBackdrop.classList.remove('active');
+    modalPaymentBackdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  btnPayNow.addEventListener('click', () => {
+    const name = paymentNameInput.value.trim();
+    const address = paymentAddressInput.value.trim();
+    if (!name || !address) {
+      paymentMsg.style.color = '#f44336';
+      paymentMsg.textContent = 'Mohon isi nama dan alamat pengiriman.';
+      return;
+    }
+    // Simulate payment processing
+    paymentMsg.style.color = '#0f0';
+    paymentMsg.textContent = 'Pembayaran berhasil! Terima kasih sudah berbelanja.';
+    // Clear cart
+    cart = [];
+    renderCart();
+    setTimeout(() => {
+      closePaymentModal();
+      navigateTo('etalase');
+    }, 2000);
+  });
+
+  // Checkout button
+  document.getElementById('btn-checkout').addEventListener('click', () => {
+    if (cart.length === 0) {
+      alert('Keranjang kosong!');
+      return;
+    }
+    openPaymentModal();
+  });
+
+  // Initialize particles.js background
+  particlesJS("particles-js", {
+    particles: {
+      number: { value: 80 },
+      color: { value: "#00d4ff" },
+      shape: { type: "circle" },
+      opacity: { value: 0.3 },
+      size: { value: 3 },
+      line_linked: {
+        enable: true,
+        distance: 150,
+        color: "#00d4ff",
+        opacity: 0.2,
+        width: 1
+      },
+      move: {
+        enable: true,
+        speed: 2
+      }
+    },
+    interactivity: {
+      detect_on: "canvas",
+      events: {
+        onhover: { enable: true, mode: "repulse" },
+        onclick: { enable: true, mode: "push" }
+      },
+      modes: {
+        repulse: { distance: 100 },
+        push: { particles_nb: 4 }
+      }
+    },
+    retina_detect: true
+  });
+
+  // On load, render products and clear cart & nav to login
+  window.onload = () => {
+    renderProducts();
+    renderCart();
+    navigateTo('login');
+  }
+</script>
+
+</body>
+</html>
